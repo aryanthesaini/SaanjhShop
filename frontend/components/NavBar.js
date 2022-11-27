@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-const NavBar = () => {
+const NavBar = ({ cart }) => {
   return (
     <div>
       <header className='text-gray-600 body-font'>
@@ -9,11 +9,17 @@ const NavBar = () => {
           <Link
             href='/'
             className='flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0'>
-            <img width={24} src={'./candle.svg'} alt='' />
+            <img
+              width={24}
+              src={
+                'https://e7.pngegg.com/pngimages/136/523/png-clipart-computer-icons-candle-desktop-icon-design-candle-candle-logo-thumbnail.png'
+              }
+              alt=''
+            />
             <span className='ml-3 text-xl'>Saanjh Candles</span>
           </Link>
           <nav className='md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center'>
-            <Link href='' className='mr-5 hover:text-gray-900'>
+            <Link href='/' className='mr-5 hover:text-gray-900'>
               Home
             </Link>
             <Link href='/about' className='mr-5 hover:text-gray-900'>
@@ -22,8 +28,12 @@ const NavBar = () => {
             <Link href='/products' className='mr-5 hover:text-gray-900'>
               Products
             </Link>
+
             <Link href='/contact' className='mr-5 hover:text-gray-900'>
               Contact us
+            </Link>
+            <Link href='/checkout' className='mr-5 hover:text-gray-900'>
+              Cart({cart.length})
             </Link>
           </nav>
           <button className='inline-block px-6 py-2 border-2 border-blue-500 text-blue-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out mt-2'>
