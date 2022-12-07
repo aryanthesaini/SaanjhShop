@@ -9,22 +9,15 @@ const NavBar = ({ cart }) => {
           <Link
             href='/'
             className='flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0'>
-            <img
-              width={24}
-              src={
-                'https://e7.pngegg.com/pngimages/136/523/png-clipart-computer-icons-candle-desktop-icon-design-candle-candle-logo-thumbnail.png'
-              }
-              alt=''
-            />
             <span className='ml-3 text-xl'>Saanjh Candles</span>
           </Link>
           <nav className='md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center'>
             <Link href='/' className='mr-5 hover:text-gray-900'>
               Home
             </Link>
-            <Link href='/about' className='mr-5 hover:text-gray-900'>
+            {/* <Link href='/about' className='mr-5 hover:text-gray-900'>
               About
-            </Link>
+            </Link> */}
             <Link href='/products' className='mr-5 hover:text-gray-900'>
               Products
             </Link>

@@ -16,6 +16,7 @@ function MyApp({ Component, pageProps }) {
 
   const [cart, setCart] = useState([]);
   const [reloadKey, setReloadKey] = useState(1);
+  const [viewNav, setViewNav] = useState(false);
   const addToCart = (item, qty, price) => {
     let newCart = cart;
     for (let i = 0; i < qty; i++) {
@@ -25,13 +26,18 @@ function MyApp({ Component, pageProps }) {
     setCart(newCart);
     setReloadKey(Math.random());
   };
+  setTimeout(() => {
+    setViewNav(true);
+  }, 5000);
   const removeFromCart = (item, qty) => {};
 
   const clearCart = (item) => {};
   return (
     <>
-      <NavBar key={reloadKey} cart={cart} />
+      {viewNav && <NavBar key={reloadKey} cart={cart} />}
+
       <Component
+        setViewNav={setViewNav}
         cart={cart}
         removeFromCart={removeFromCart}
         addToCart={addToCart}

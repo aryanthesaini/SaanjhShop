@@ -28,7 +28,7 @@ const Products = (props) => {
                       className='h-60 rounded w-full object-cover object-center mb-6'
                       src={
                         item.attributes.image.data &&
-                        `http://localhost:1337${item.attributes.image.data.attributes.url}`
+                        `${item.attributes.image.data.attributes.name}`
                       }
                       alt={item.attributes.title}
                     />
@@ -38,12 +38,7 @@ const Products = (props) => {
                     <h2 className='text-lg text-gray-900 font-medium title-font mb-4'>
                       {item.attributes.title}
                     </h2>
-                    <div className='hidden bg-red-800 bg-green-800  bg-yellow-800 bg-blue-800'></div>
-                    <button
-                      className={
-                        'border-2 border-gray-300 ml-1 rounded-full w-6 h-6 focus:outline-none ' +
-                        `bg-${item.attributes.scent}-800`
-                      }></button>
+
                     <p className='leading-relaxed text-base'>
                       {item.attributes.description}
                     </p>
@@ -65,14 +60,17 @@ const Products = (props) => {
 
 export async function getServerSideProps(context) {
   let headers = {
-    Authorization:
-      'Bearer e29791c82c4cefb0a3a35aff2ed3fc5f86b86785e3ccd8d9cfcd615fd621f5fa62b00299422e7898b9e70aaf1e9ec9ec4f37df75bd084461ccbf1683c86e787790b876bbc0f27717a121c17f2099a663f13b780763dc16587ed8d364951b8813df4662e73a929c6aa2fa274e0aeb7063f461524e1d4dc118b1a76ff9ab985295',
+    Authorization: `Bearer ${process.env.NEXT_PUBLIC_ADMIN_TOKEN}`,
   };
-  let a = await fetch('http://localhost:1337/api/products?populate=*', {
-    headers,
-  });
+  let a = await fetch(
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?populate=*`,
+    {
+      headers,
+    }
+  );
   let products = await a.json();
-  console.log(products);
+  // console.log(products);
+
   return {
     props: { products },
   };

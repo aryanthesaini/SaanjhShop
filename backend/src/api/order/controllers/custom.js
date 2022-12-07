@@ -6,7 +6,7 @@ const PaytmChecksum = require("paytmchecksum");
 
 module.exports = createCoreController("api::order.order", ({ strapi }) => ({
   // Method 1: Creating an entirely custom action
-  async exampleAction(ctx) {
+  async pre(ctx) {
     /*
      * import checksum generation utility
      * You can get this utility from https://developer.paytm.com/docs/checksum/
@@ -14,12 +14,29 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
 
     var paytmParams = {};
     let params = JSON.parse(ctx.request.body);
+    params.orderid = params.orderId;
+    console.log(params);
+    const entry = await strapi.entityService.create("api::order.order", {
+      data: {
+        email: params.email,
+        orderid: params.orderid,
+        paymentInfo: null,
+        products: params.cart,
+        address: params.address,
+        name: params.name,
+        transactionid: "",
+        amount: params.amount,
+        status: "pending",
+      },
+    });
+
     paytmParams.body = {
+      OBJID: entry.id,
       requestType: "Payment",
       mid: process.env.MID,
-      websiteName: "YOUR_WEBSITE_NAME",
+      websiteName: "SAANJH_SHOP",
       orderId: params.orderid,
-      callbackUrl: "https://localhost1337/api/orders/posttransaction",
+      callbackUrl: "http://localhost:1337/api/orders/posttransaction",
       txnAmount: {
         value: params.amount,
         currency: "INR",
@@ -78,5 +95,29 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
     };
     let myr = await gettoken();
     ctx.send(JSON.parse(myr));
+  },
+  async post(ctx) {
+    let params = ctx.request.body;
+    console.log(params);
+
+    
+
+    const entry = await strapi.entityService.findMany("api::order.order", {
+      fields: ["id"],
+      filters: { orderid: params.ORDERID },
+    });
+    console.log(entry);
+
+    let id = entry[0].id;
+
+    await strapi.entityService.update("api::order.order", id, {
+      data: {
+        transactionid: params.TXNID,
+        paymentInfo: params,
+        status: params.STATUS,
+      },
+    });
+
+    ctx.redirect("http://localhost:3000/success");
   },
 }));
